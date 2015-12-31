@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv = 'Content-Type' content = 'text/html' charset = 'utf-8'>
+    <meta name = 'viewport' content = 'initial-scale = 1.0,width=device-width' >
+    <title>网页索引</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/pure.css">
+    <link rel="stylesheet" href="../dist/mcss/vue.css">
+</head>
+    
+<body>
+    <div id="user">
+        <table>
+            <thead>
+                <tr>
+                    <th>index</th>
+                    <th>fullname</th>
+                    <th>password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="n in users" track-by="$index">
+                    <td v-if="here">{{$index}}</td>
+                    <td>{{n.fullname}}</td>
+                    <td>{{n.password}}</td>
+                    <td>
+                        <input type="button" @click="check()" value="change">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript" src = '../dist/js/jquery.min.js'></script>
+    <script type="text/javascript" src = '../dist/js/vue.js'></script>
+    <script type="text/javascript" src = '../dist/mjs/vue2.js'></script>
+</body>
+
+</html>
+

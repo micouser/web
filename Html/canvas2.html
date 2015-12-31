@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name = "description" content = "">
+        <meta name = "author" content ="">
+        <title>Canvas</title>
+        <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../dist/mcss/My.css">
+    </head>
+    <body>
+        <div id = "canvar_img">
+            <canvas id = "Mycanvas" width = "300" height = "300">
+                浏览器不支持HTML的canvas属性。
+            </canvas>
+            <img src="./images/up.jpg" alt ="image1" display = "none">
+            <img src="./images/nemo.jpg" alt = "image2">
+            <img src="./images/toystory.jpg" alt = "image3">
+            <img src="./images/walle.jpg" alt = "image4">
+            <span class = ""></span>
+            <span class = ""></span>
+        </div>
+    <script src="../dist/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) 
+        {
+            function drawimage()
+            {
+                var image = new Image();
+                image.src = "./images/up.jpg";
+                image.onload = function()
+                {
+                    var canvas = document.getElementById("Mycanvas");
+                    var mcanvas = canvas.getContext("2d");
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    mcanvas.drawImage(image,50,50);
+                    return canvas;
+                }
+               /* var image = new Image();
+                image.src = "images/up.jpg";
+                var canvas = document.getElementById("Mycanvas");
+                var image = document.getElementById("image");
+                var mcanvas = canvas.getContext("2d");
+                mcanvas.drawImage(image,50,50);*/
+            }
+            // drawimage();    
+        });
+    </script>
+    </body>
+</html>

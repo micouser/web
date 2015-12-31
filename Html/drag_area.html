@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Drag_area</title>
+    <link rel="stylesheet" type="text/css" href="../dist/mcss/drag_area.css">
+</head>
+
+<body>
+    <div id="products">
+        <h1 class="ui-widget-header">地区</h1>
+        <div id="catalog" class = "areas">
+            <li><span>长沙</span></li>
+            <li><span>株洲</span></li>
+            <li><span>湘潭</span></li>
+        </div>
+    </div>
+    <div id="cart">
+        <h1 class="ui-widget-header">服务器</h1>
+        <div class="ui-widget-content network">
+            <ol>
+                <li class="placeholder">添加地区到这里</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script>
+    $(function() {
+        $("#catalog").accordion();
+        $("#catalog li").draggable({
+            appendTo: "body",
+            helper: "clone",
+            cursor:"pointer"
+        });
+
+        /*var axis = $( "#catalog li" ).draggable( "option", "axis" );
+        console.log(axis);
+        $('#catalog li').draggable( "option", "axis", "y" );*/
+
+        $("#cart div").droppable({
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            accept: ":not(.ui-sortable-helper)",
+            drop: function(event, ui) {
+                $(this).find(".placeholder").remove();
+                $("<li></li>").text(ui.draggable.text()).appendTo(this);
+            }
+        }).sortable({
+            items: "li:not(.placeholder)",
+            sort: function() {
+                $(this).removeClass("ui-state-default");
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

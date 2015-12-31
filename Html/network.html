@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name = "description" content = "">
+        <meta name = "author" content ="">
+        <title>Network</title>
+        <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../dist/mcss/network.css">
+    </head>
+    <body>
+        <h2 class = "network_title">网络计算器|TCP/IP子网掩码计算换算</h2>   
+		<div class = "network_center">
+			<div>
+                <table class = "network_table">
+                    <thead>
+                        <th colspan = "3" style = "text-align:center">
+                            <h4><b>子网掩码计算器</b></h4>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr class = "network_table_tr">
+                            <td class = "network_table_td1">输入TCP/IP地址：</td>
+                            <td id = "network_ipinput" class = "network_table_td2">
+                                <input type = "text" tabindex = "1" name="ip_1" size="5" maxlength="3" onkeyup = "network_checkip(this,this.value)">
+                                <input type = "text" tabindex = "2" name="ip_2" size="5" maxlength="3" onkeyup = "network_checkip(this,this.value)">
+                                <input type = "text" tabindex = "3" name="ip_3" size="5" maxlength="3" onkeyup = "network_checkip(this,this.value)">
+                                <input type = "text" tabindex = "4" name="ip_4" size="5" maxlength="3" onkeyup = "network_checkip(this,this.value)"><span id = "waring" class = "network_waring"></span>
+                            </td>
+                            <td class = "network_table_td3" >
+                                <input class = "network_table_button" type = "button" value = "清除" onclick = "network_delete()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>选择网络类型：</td>
+                            <td align = "left" id = "network_radio">
+                                <input type = "radio" value = "1" name = "net_radio" checked = "">默认
+                                <input type = "radio" value = "2" name = "net_radio">A类网
+                                <input type = "radio" value = "3" name = "net_radio">B类网
+                                <input type = "radio" value = "4" name = "net_radio">C类网
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>请选择子网的IP数量：</td>
+                            <td>
+                                <select name = "net_ipnumbers" onchange = "network_EmptyHosts()">
+                                    <option value="0"></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="8">8</option>
+                                    <option value="16">16</option>
+                                    <option value="32">32</option>
+                                    <option value="64">64</option>
+                                    <option value="128">128</option>
+                                    <option value="256">256</option>
+                                    <option value="512">512</option>
+                                    <option value="1024">1024</option>
+                                    <option value="2048">2048</option>
+                                    <option value="4096">4096</option>
+                                    <option value="8192">8192</option>
+                                    <option value="16384">16384</option>
+                                    <option value="32768">32768</option>
+                                    <option value="65536">65536</option>
+                                    <option value="131072">131072</option>
+                                    <option value="262144">262144</option>
+                                    <option value="524288">524288</option>
+                                    <option value="1048576">1048576</option>
+                                    <option value="2097152">2097152</option>
+                                    <option value="4194304">4194304</option>
+                                    <option value="8388608">8388608</option>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td width = 25%>或选择每个网络所需的节点/主机数（含广播地址）：</td>
+                            <td>
+                                <select name = "net_hostnumbers" onchange = "network_EmptyNetwork()">
+                                    <option value="0"></option>
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="8">8</option>
+                                    <option value="16">16</option>
+                                    <option value="32">32</option>
+                                    <option value="64">64</option>
+                                    <option value="128">128</option>
+                                    <option value="256">256</option>
+                                    <option value="512">512</option>
+                                    <option value="1024">1024</option>
+                                    <option value="2048">2048</option>
+                                    <option value="4096">4096</option>
+                                    <option value="8192">8192</option>
+                                    <option value="16384">16384</option>
+                                    <option value="32768">32768</option>
+                                    <option value="65536">65536</option>
+                                    <option value="131072">131072</option>
+                                    <option value="262144">262144</option>
+                                    <option value="524288">524288</option>
+                                    <option value="1048576">1048576</option>
+                                    <option value="2097152">2097152</option>
+                                    <option value="4194304">4194304</option>
+                                    <option value="8388608">8388608</option>
+                                    <option value="16777216">16777216</option>
+                                    <option value="33554432">33554432</option>
+                                    <option value="67108864">67108864</option>
+                                    <option value="134217728">134217728</option>
+                                    <option value="268435456">268435456</option>
+                                    <option value="536870912">536870912</option>
+                                    <option value="1073741824">1073741824</option>
+                                    <option value="2147483648">2147483648</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" id = "network_ipbtn1" value = "计算">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>网络类型：</td>
+                            <td id = "network_type">
+                                <input type = "text" name="nettype_1" size="5" maxlength="3">
+                                <input type = "text" name="nettype_2" size="5" maxlength="3">
+                                <input type = "text" name="nettype_3" size="5" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>子网掩码：</td>
+                            <td id = "network_netmask">
+                                <input type = "text" name="netmask_1" size="5" maxlength="3">
+                                <input type = "text" name="netmask_2" size="5" maxlength="3">
+                                <input type = "text" name="netmask_3" size="5" maxlength="3">
+                                <input type = "text" name="netmask_4" size="5" maxlength="3">&middot&middot&middot或&middot&middot&middot
+								<input type = "text" name="netmask_5" size="5" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>子网：</td>
+                            <td id = "network_subnet">
+                                <input type = "text" name="subnet_1" size="5" maxlength="3">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type ="button" value = "网络列表" onclick = "network_netlist()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>每个网络的节点/主机数（含网络和广播地址）：</td>
+                            <td id = "network_host">
+                                <input type = "text" name="host_1" size="6" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <table class = "network_table">
+                    <thead>
+                        <th colspan = "3" style = "text-align:center">
+                            <h4><b>网络/节点计算器</b></h4>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class = "network_table_td1">请输入子网掩码：</td>
+                            <td id = "subnetmask2" class = "network_table_td2">
+                                <input type = "text" tabindex = "1" name="subnetmask2_1" size="5" maxlength="3" >
+                                <input type = "text" tabindex = "2" name="subnetmask2_2" size="5" maxlength="3" >
+                                <input type = "text" tabindex = "3" name="subnetmask2_3" size="5" maxlength="3" >
+                                <input type = "text" tabindex = "4" name="subnetmask2_4" size="5" maxlength="3" >
+                            </td>
+                            <td class = "network_table_td3"></td>
+                        </tr>
+                        <tr>
+                            <td>请输入TCP/IP地址：</td>
+                            <td id = "ipaddress2">
+                                <input type = "text" tabindex = "1" name="ipaddress2_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="ipaddress2_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="ipaddress2_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="ipaddress2_4" size="5" maxlength="3">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math2()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>网络：</td>
+                            <td id = "net2">
+                                <input type = "text" tabindex = "1" name="net2_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="net2_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="net2_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="net2_4" size="5" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td>节点/主机：</td>
+                            <td id = "host2">
+                                <input type = "text" tabindex = "1" name="host2_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="host2_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="host2_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="host2_4" size="5" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>广播地址</td>
+                            <td id = "broadcast2">
+                                <input type = "text" tabindex = "1" name="broadcast2_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="broadcast2_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="broadcast2_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="broadcast2_4" size="5" maxlength="3">
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <table class = "network_table">
+                    <thead>
+                        <th colspan = "3" style = "text-align:center">
+                            <h4><b>IP地址转换器</b></h4>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class = "network_table_td1">请输入点格式十进制TCP/IP地址：</td>
+                            <td id = "ipaddress_10" class = "network_table_td2">
+                                <input type = "text" tabindex = "1" name="ipaddress_10_1" size="8" maxlength="3">
+                                <input type = "text" tabindex = "2" name="ipaddress_10_2" size="8" maxlength="3">
+                                <input type = "text" tabindex = "3" name="ipaddress_10_3" size="8" maxlength="3">
+                                <input type = "text" tabindex = "4" name="ipaddress_10_4" size="8" maxlength="3">
+                            </td>
+                            <td class = "network_table_td3">
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math3()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>或输入二进制TCP/IP地址：</td>
+                            <td id = "ipaddress_2">
+                                <input type = "text" tabindex = "1" name="ipaddress_2_1" size="8" maxlength="8">
+                                <input type = "text" tabindex = "2" name="ipaddress_2_2" size="8" maxlength="8">
+                                <input type = "text" tabindex = "3" name="ipaddress_2_3" size="8" maxlength="8">
+                                <input type = "text" tabindex = "4" name="ipaddress_2_4" size="8" maxlength="8">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math4()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>或输入十六禁止TCP/IP地址：</td>
+                            <td id = "ipaddress_16">
+                                <input type = "text" tabindex = "1" name="ipaddress_16_1" size="8" maxlength="2">
+                                <input type = "text" tabindex = "2" name="ipaddress_16_2" size="8" maxlength="2">
+                                <input type = "text" tabindex = "3" name="ipaddress_16_3" size="8" maxlength="2">
+                                <input type = "text" tabindex = "4" name="ipaddress_16_4" size="8" maxlength="2">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math5()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>或输入十进制TCP/IP地址：</td>
+                            <td>
+                                <input type = "text" tabindex = "1" name = "ipaddress10_1" id="ipaddress11_1" size="10" maxlength="10">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math6()">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <table class = "network_table" id = "table4">
+                    <thead>
+                        <th colspan = "3" style = "text-align:center">
+                            <h4><b>子网掩码换算器</b></h4>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                       <tr>
+                            <td class = "network_table_td1">请输入点格式十进制子网掩码：</td>
+                            <td id = "subnetmask10" class = "network_table_td2">
+                                <input type = "text" tabindex = "1" name="subnetmask10_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="subnetmask10_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="subnetmask10_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="subnetmask10_4" size="5" maxlength="3">
+                            </td>
+                            <td class = "network_table_td3">
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math7()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>或输入子网掩码的位元数：</td>
+                            <td> 
+                                <b>/</b><input type = "text" tabindex = "1" name = "subnetmask11_1" id="subnetmask11" size="5" maxlength="3">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math8()">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <table class = "network_table">
+                    <thead>
+                        <th colspan = "3" style = "text-align:center">
+                            <h4><b>子网掩码逆算器</b></h4>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                       <tr>
+                            <td class = "network_table_td1">请输入点格式十进制子网掩码：</td>
+                            <td id = "subnetmask12" class = "network_table_td2">
+                                <input type = "text" tabindex = "1" name="subnetmask12_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="subnetmask12_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="subnetmask12_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="subnetmask12_4" size="5" maxlength="3">
+                            </td>
+                            <td class = "network_table_td3">
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math9()">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>输入要逆算的子网掩码：</td>
+                            <td id = "subnetmask13">
+                                <input type = "text" tabindex = "1" name="subnetmask13_1" size="5" maxlength="3">
+                                <input type = "text" tabindex = "2" name="subnetmask13_2" size="5" maxlength="3">
+                                <input type = "text" tabindex = "3" name="subnetmask13_3" size="5" maxlength="3">
+                                <input type = "text" tabindex = "4" name="subnetmask13_4" size="5" maxlength="3">
+                            </td>
+                            <td>
+                                <input class = "network_table_button" type = "button" value = "计算" onclick = "network_math10()">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+	</br>
+	</br>
+	</br>
+	</br>
+	</br>
+	<script src="../dist/js/jquery.min.js"></script>
+	<script src ="../dist/mjs/network.js"></script>
+    <script type="text/javascript">
+	jQuery(document).ready(function($) {
+        $("#network_ipbtn1").click(function(event) {
+            network_ipaddresstype();
+            network_math();
+            network_display();
+        });
+    });
+    </script>
+    </body>
+</html>

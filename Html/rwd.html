@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv = 'Content-Type' content = 'text/html' charset = 'utf-8'>
+    <meta name = 'viewport' content = 'initial-scale = 1.0,width=device-width' >
+    <title>响应式布局</title>
+    <link rel="stylesheet" type="text/css" href="../dist/mcss/rwd.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- the header and navigation -->
+        <div id="test1" class="navbar">
+            <input class = 'name' type = 'button' value = '菜单'>
+            <!--如果在ul中定义class为 display .display {display:block} 只能使ul的子元素为block为block元素 ul还是属于none状态 -->
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">新闻</a></li>
+                <li><a href="#">头条</a></li>
+                <li><a href="#">视频</a></li>
+                <li><a href="#">音乐</a></li>
+            </ul>
+        </div>
+        
+        <!-- the sidebar -->
+        <!-- <div class="sidebar">
+            <p>here is the sidebar</p>
+        </div>
+        the content
+        <div class="content">
+            <p>here is the content</p>
+        </div>
+        the footer
+        <div class="footer">
+            <p>Here is the footer</p>
+        </div> -->
+        </div>
+        <br><br><br><br><br><br><br>
+        <input type = 'button' id = "abutton" value = 'demo' onclick = ''>
+    <script type="text/javascript" src = '../dist/js/jquery.min.js'></script>
+    <script type="text/javascript">
+        /*$(".navbar input").click(function(event) {
+            $(".navbar ul").toggleClass('display');
+        });*/
+        
+        function demo()
+        {
+            this.value = Math.random();
+            console.log('demo');
+        }
+        demo();
+        function isthis()
+        {
+            this.a = 5;
+            this.b = 6;
+            console.log(this.a);
+        }
+        function foo()
+        {
+            console.log(this);
+        }
+        foo();
+        new foo();
+        isthis();
+        console.log(this.a);
+
+        function test()
+        {
+            console.log(this.x);
+        }
+        var o = {};
+        o.x = 2;
+        o.met = test;
+
+        o.met();
+
+        var point = { 
+            x : 0, 
+            y : 0, 
+            moveTo : function(x, y) { 
+                this.x = this.x + x; 
+                console.log(this.x);
+                this.y = this.y + y; 
+                console.log(this.y);
+            } 
+        }; 
+        point.moveTo(1, 1)//this 绑定到当前对象，即 point 对象
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+.server1
+{
+	width: 300px;
+	height: 200px;
+	border: 1px solid green;
+}
+.server1 p
+{
+	margin-top: 5px;
+	text-align: center;
+	background-color: #B6B1B1;
+}
+.server1 ol li
+{
+	cursor: pointer;
+}

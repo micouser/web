@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name = "description" content = "">
+        <meta name = "author" content ="">
+        <title>Canvas</title>
+        <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="dist/css/My.css">
+    </head>
+    <body>
+        <div id = "canvar_time" class = "canvar_div"></div>
+    
+    <script src="dist/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        var width  = 400,
+            height = 400,
+            center = 
+            {
+                x : width/2,
+                y : height/2,
+                radius : 10
+            },
+            radius = 180,
+            borderWidth = 6,
+            clock = document.getElementById('canvar_time'),
+            clock_background = document.createElement("canvas"),
+            clock_points = document.createElement("canvas");
+
+        clock_points.width = clock_background.width = width;
+        clock_points.height = clock_background.height = height;
+        clock_points.style.position = "absolute";
+        clock_points.style.left = 0;
+        clock_points.style.right = 0;
+
+        clock.appendChild(clock_points);
+        clock.appendChild(clock_background);
+
+        function draw_background()
+        {
+            var backctx = clock_background.getContext("2d"),
+                scale   = 15,
+                deg     = 0;
+            backctx.beginPath();
+            backctx.lineWidth   = borderWidth;
+            backctx.strokeStyle = "#3a54f2";
+            backctx.arc(center.x,center.y,radius,0,2*Math.PI,true);
+            backctx.stroke();
+            backctx.closePath();
+
+            backctx.beginPath();
+            backctx.fillStyle = "#3a54f2";
+            backctx.arc(center.x,center.y,center.radius,0,2*Math.PI,true);
+            backctx.fill();
+            backctx.closePath();
+
+            for(var i = 0;i<60;i++)
+            {
+                backctx.beginPath();
+                backctx.moveTo(center.x+(radius-3)*Math.cos(deg),center.y+(radius-3)*Math.sin(deg));
+                if (i%5==0) {
+                    backctx.lineWidth = "5";
+                    backctx.lineTo(center.x+(radius-scale-6)*Math.cos(deg),center.y+(radius - scale-6)*Math.sin(deg));
+                    backctx.strokeStyle = "black";
+                }
+                else
+                {
+                    backctx.lineWidth = "2";
+                    backctx.lineTo(center.x+(radius-scale)*Math.cos(deg),center.y+(radius - scale)*Math.sin(deg));
+                    backctx.strokeStyle = "#15f957";
+                }
+                backctx.stroke();
+                deg = deg + Math.PI/30;
+            }
+        }
+        function draw_points()
+        {
+			var pointctx = clock_points.getContext("2d"),
+				today = new Date(),
+				hours = today.getHours(),
+				minutes = today.getMinutes(),
+				seconds = today.getSeconds();
+			pointctx.clearRect(0,0,width,height);
+			hours = hours>12?hours-12:hours;
+			hours = hours+minutes/60;
+			hours = hours/12;
+			minutes = minutes/60;
+			seconds = seconds/60;
+			drawPointers(seconds,2,130);
+			drawPointers(minutes,4,110);
+			drawPointers(hours,6,90);
+        }
+		
+		function drawPointers(angle,lineWidth,length)
+		{
+			var pointctx = clock_points.getContext("2d");
+			angle =angle*Math.PI*2-Math.PI/2;
+			pointctx.beginPath();
+			pointctx.lineWidth = lineWidth;
+			pointctx.strokeStyle = "#000";
+			pointctx.moveTo(center.x,center.y);
+			pointctx.lineTo(center.x+length*Math.cos(angle),center.y+length*Math.sin(angle));
+			pointctx.stroke();
+			pointctx.closePath();
+		}
+		draw_background();
+		draw_points();
+		setInterval(draw_points,1000);
+    </script>
+    </body>
+</html>

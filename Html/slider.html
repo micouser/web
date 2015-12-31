@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <style type="text/css">
+    .dragbar {
+        position: relative;
+        top: 300px;
+        left: 300px;
+        height: 20px;
+        width: 200px;
+        background: #ddd;
+        border-radius: 8px;
+    }
+    
+    .draghandle {
+        height: 18px;
+        width: 10px;
+        border: 1px solid #444;
+        overflow: hidden;
+        background: #3d642d;
+        position: absolute;       
+        z-index: 10;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .input1
+    {
+        position: absolute;
+        top: 30px;
+    }
+    </style>
+    <script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    var percent = 0;
+    $(function() {
+        var handle = $(".draghandle");
+        var dragbar = $(".dragbar");
+        console.log(dragbar.offset().left)
+        var maxlen = parseInt(dragbar.width()) - parseInt(handle.outerWidth());
+        handle.bind("mousedown", function(e) {
+            var x = e.pageX-308;
+            var hx = parseInt(handle.offset().left)-308;
+            $(document).bind("mousemove", function(e) {
+                var number = e.pageX-308 - x + hx;
+                var left = number < 0 ? 0 : (number >= maxlen ? maxlen : number);
+                handle.css({
+                    left: left,
+                });
+                percent = (left / maxlen * 100).toFixed(0);
+                $("#inputtext").val(200*percent/100);
+                return false;
+            });
+            $(document).bind("mouseup", function() {
+                $(this).unbind("mousemove");
+            })
+        })
+        
+        $("#inputtext").bind("keydown",function(){
+            if(event.keyCode == 13)
+            {
+                var text = parseInt($("#inputtext").val());
+            if (text>188) {
+                text = 188;
+            };
+            if (text<0) {
+                text = 0;
+            };
+            handle.css("left",text);
+            }
+            
+        })
+
+        
+
+        /*function move(percent) {
+            var handle_left = maxlen * percent + dragbar.offset().left;
+            handle.animate({
+                left: handle_left,
+                top: dragbar.offset().top
+            }, {
+                duration: 1500,
+                queue: false
+            });
+        }*/
+    });
+    </script>
+</head>
+
+<body>
+    <div class = "top">feiji</div>
+    <div class="dragbar">
+        <div class="draghandle"></div>
+        <input type = "text" id = "inputtext" class = "input1">
+    </div>
+</body>
+
+</html>

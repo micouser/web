@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv = 'Content-Type' content = 'text/html' charset = 'utf-8'>
+    <meta name = 'viewport' content = 'initial-scale = 1.0,width=device-width' >
+    <title>DHCP </title>
+    <link rel="stylesheet" href="../dist/mcss/vue.css">
+</head>
+    
+<body>  
+    <div  draggable = "true" id = "drag" style = "width:200px;height:100px;background-color:blue">
+        
+    </div>   
+    
+    
+
+    <script type="text/javascript" src = '../dist/js/jquery.min.js'></script>
+    <script type="text/javascript" src = '../dist/js/vue.js'></script>
+    <script type="text/javascript">
+        vmServers = new Vue({
+            el:"#servers",
+            data:{
+                servers:null
+            },
+            methods:{
+                dragover:function(){
+
+                },
+                dragArea:function(s,areaId){
+                    this._preServer =s;
+                    return this._areaId = areaId;
+                },
+                dropToServer:function(s){
+                    var areaId;
+                    
+                }
+            },
+
+        })
+        window.x = vmServers = new Vue({
+        el: "#servers",
+        data: {
+          servers: null,
+          areaNames: null
+        },
+        methods: {
+          dragover: function() {},
+          dragArea: function(s, areaId) {
+            this._preServer = s;
+            return this._areaId = areaId;
+          },
+          dropToServer: function(s) {
+            var areaId;
+            if (s === this._preServer) {
+              return;
+            }
+            areaId = this._areaId;
+            this._preServer.areas.$remove(areaId);
+            s.areas.push(areaId);
+            return $.ajax({
+              url: "/api/dhcps/" + s.id + "/areas",
+              type: "PUT",
+              data: JSON.stringify(areaId)
+            });
+          }
+        }
+      });
+    </script>
+</body>
+
+</html>
+

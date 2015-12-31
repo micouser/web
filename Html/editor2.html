@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name = "description" content = "">
+        <meta name = "author" content ="">
+        <title>Editor</title>
+        <link rel="stylesheet" type="text/css" href="../dist/css/jquery.dataTables.min.css"> 
+        <link rel="stylesheet" type="text/css" href="../dist/css/editor.dataTables.min.css"> 
+        <link rel="stylesheet" type="text/css" href="../dist/css/buttons.dataTables.min.css"> 
+        <link rel="stylesheet" type="text/css" href="../dist/css/select.dataTables.min.css"> 
+        <style type="text/css">
+
+        </style>
+    </head>
+    
+    <body>
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Extn.</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <script type="text/javascript" src = "../dist/js/jquery.min.js"></script>
+        <script type="text/javascript" src="../dist/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../dist/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="../dist/js/dataTables.select.min.js"></script>
+        <script type="text/javascript" src="../dist/js/dataTables.editor.min.js"></script>
+        <script type="text/javascript">
+            var editor; // use a global for the submit and return data rendering in the examples
+ 
+            $(document).ready(function() {
+                editor = new $.fn.dataTable.Editor( {
+                    ajax: "./php/staff.php",
+                    table: "#example",
+                    i18n:
+                    {
+                        "remove":
+                        {
+                            "button":"删除",
+                            "title":"删除",
+                            "submit":"删除",
+                            "confirm":
+                            {
+                                "_":"确定要删除？",
+                                "1":"准备删除？"
+                            }
+                        },
+
+                        create:
+                        {
+                            "button":"新建",
+                            "title":"新建一行",
+                            "submit":"确认"
+                        },
+
+                        edit:
+                        {
+                            "button":'编辑',
+                            "title":"编辑内容",
+                            "submit":"确认"
+                        }
+                    },
+                    fields: [ {
+                            label: "First name:",
+                            name: "first_name",
+                            display:'bootstrap'
+                        }, {
+                            label: "Last name:",
+                            name: "last_name"
+                        }, {
+                            label: "Position:",
+                            name: "position"
+                        }, {
+                            label: "Office:",
+                            name: "office"
+                        }, {
+                            label: "Extension:",
+                            name: "extn"
+                        }, {
+                            label: "Start date:",
+                            name: "start_date",
+                            type: "datetime"
+                        }, {
+                            label: "Salary:",
+                            name: "salary"
+                        },{
+                            label:"lucy",
+                            name:"lucy",
+                            type:"select",
+                            options:
+                            [
+                                {label:"english", value:"lucy"},
+                                {label:"japan", value:"loli"}
+                            ]
+
+                        }
+                    ]
+                } );
+                
+                
+
+                $('#example').DataTable( {
+                    dom: 'Bfrtip',
+                    ajax: "../php/staff.php",
+                    columns: [
+                        { data: null, render: function ( data, type, row ,meta) {
+                            // Combine the first and last names into a single table field
+                            return data.first_name+' '+data.last_name;
+                        }, 
+                            editField:['first_name','last_name']
+                        },
+                        { data: "position" },
+                        { data: "office" },
+                        { data: "extn" },
+                        { data: "start_date" },
+                        { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+                    ],
+                    select: true,
+                    buttons: [
+                        {
+                            extend:'collection',
+                            text:'导出',
+                            buttons:
+                            [
+                                'copy',
+                                'excel',
+                                'csv',
+                                'pdf',
+                            ]
+                        },
+                        { extend: "create", editor: editor },
+                        { extend: "edit",   editor: editor },
+                        { extend: "remove", editor: editor }
+                    ]
+                } );
+            } );
+        </script>
+    </body>
+</html>

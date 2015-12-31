@@ -1,0 +1,29 @@
+[
+    {
+        "areas": "6|1",
+        "comment": "",
+        "id": 2,
+        "name": "qq",
+        "password": "qq",
+        "readonly": false,
+        "super": false
+    },
+    {
+        "areas": "",
+        "comment": "",
+        "id": 3,
+        "name": "q",
+        "password": "q",
+        "readonly": null,
+        "super": true
+    },
+    {
+        "areas": "1|9",
+        "comment": "",
+        "id": 6,
+        "name": "ad",
+        "password": "ccd",
+        "readonly": true,
+        "super": null
+    }
+]

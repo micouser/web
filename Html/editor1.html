@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Editor</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/editor.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/jquery-ui.min.css">
+    <style type="text/css" media="screen">
+
+    </style>
+</head>
+
+<body>
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Priority</th>
+                <th>Item</th>
+                <th>Statu numbers</th>
+            </tr>
+        </thead>
+    </table>
+    <script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../dist/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../dist/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="../dist/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="../dist/js/dataTables.editor.min.js"></script>
+    <script type="text/javascript" src="../dist/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+    var number = 0;
+    // Todo field type plug-in code
+    (function($, DataTable) {
+
+        if (!DataTable.ext.editorFields) {
+            DataTable.ext.editorFields = {};
+        }
+
+        var Editor = DataTable.Editor;
+        var _fieldTypes = DataTable.ext.editorFields;
+
+        _fieldTypes.drag = {
+            create: function(drag) {
+                var that = this;
+                drag._enabled = true;
+                // Create the elements to use for the input
+                /* conf._input = $(
+                     '<div>'+
+                         '<button class="inputButton" value="0">To do</button>'+
+                         '<button class="inputButton" value="1">Done</button>'+
+                     '</div>')[0];*/
+                drag.html = $(
+                    '<div">' +
+                    '<input type="text" id="amount" style="border:0; font-; font-weight:bold; width:30px">' +
+                    '<p id="slider-vertical" style="width:200px;"></p>' +
+                    '<div>'
+                )[0];
+                // Use the fact that we are called in the Editor instance's scope to call
+                // the API method for setting the value when needed
+                return drag.html;
+            },
+
+            get: function(drag) {
+                return $('#amount', drag.html).val();
+
+            },
+
+            set: function(drag, val) {
+                $("#amount", drag.html).val(val);
+                number = val;
+            },
+
+            enable: function(drag) {
+                drag._enabled = true;
+                $(drag.html).removeClass('disabled');
+            },
+
+            disable: function(drag) {
+                drag._enabled = false;
+                $(drag.html).addClass('disabled');
+            }
+        };
+
+    })(jQuery, jQuery.fn.dataTable);
+
+
+    var editor; // use a global for the submit and return data rendering in the examples
+
+    $(document).ready(function() {
+        editor = new $.fn.dataTable.Editor({
+            ajax: "../php/todo.php",
+            table: "#example",
+            fields: [{
+                label: "Item:",
+                name: "item"
+            }, {
+                label: "Status:",
+                name: "done",
+                type: "drag", // Using the custom field type
+                def: 2
+            }, {
+                label: "Priority:",
+                name: "priority",
+                type: "select",
+                options: [{
+                    label: "1 (highest)",
+                    value: "1"
+                }, {
+                    label: "2",
+                    value: "2"
+                }, {
+                    label: "3",
+                    value: "3"
+                }, {
+                    label: "4",
+                    value: "4"
+                }, {
+                    label: "5 (lowest)",
+                    value: "5"
+                }]
+            }]
+        });
+
+        editor.on('open', function() {
+            $("#slider-vertical").slider({
+                orientation: "horizontal",
+                range: "min",
+                min: 0,
+                max: 100,
+                value: number,
+                slide: function(event, ui) {
+                    $("#amount").val(ui.value);
+                }
+
+            });
+        });
+
+        $('#example').DataTable({
+            dom: "frtiB",
+            ajax: "../php/todo.php",
+            columns: [{
+                data: "priority",
+                className: "center" 
+            }, {
+                data: "item"
+            }, {
+                className: "center",
+                data: "done"
+            }],
+            select: true,
+            buttons: [{
+                extend: "create",
+                editor: editor
+            }, {
+                extend: "edit",
+                editor: editor
+            }, {
+                extend: "remove",
+                editor: editor
+            }]
+        });
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name = "viewport" width = "divice-width">
+    <link rel="stylesheet" type="text/css" href="../dist/mcss/Jquery.css">
+   
+    <title>Jquery Ui</title>
+</head>
+<body>
+    <div class = "server1" id = "server1">
+        <p>服务器1</p>
+        <ol id = "server2">
+            
+        </ol>
+    </div>
+    <input type = 'checkbox' id = 'check'>
+    <div class = "server1" id = "list">
+         <ol id = 'areas'>
+             <li>长沙</li>
+             <li>株洲</li>
+             <li>湘潭</li>
+             <li>永州</li>
+             <li>郴州</li>
+         </ol>
+     </div>             
+    <script type="text/javascript" src = "../dist/js/jquery.min.js"></script>
+    <script type="text/javascript" src = "../dist/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        /*$('#areas,#server2').sortable({
+            
+        });*/
+        $('#areas>li').draggable({
+            revert: 'invalid',
+            containment: 'document',
+            helper: "clone"
+        });
+
+        $('#server1').droppable({
+            accept: '#areas>li',
+            drop: function(evrnt,ui)
+            {
+                deleteareas(ui.draggable);    
+            }
+        });
+
+        $('#list').droppable({
+            accept: '#server2 li',
+            drop: function(evrnt,ui)
+            {
+                relists(ui.draggable);
+            }
+        });
+
+        function deleteareas(pur)
+        {
+            if($('input:checked').length == 0)
+            {
+                pur.fadeOut(function() {
+                    pur.appendTo($('#server2')).fadeIn();
+                });
+            }else
+            {
+                $('#server2').append(pur.text());
+                
+            }
+            
+        }
+
+        function relists(pur)
+        {
+            pur.fadeOut(function() {
+                pur.appendTo($('#areas')).fadeIn();
+            });;
+        }
+    </script>
+</body>
+</html>

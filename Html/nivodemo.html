@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name = "description" content = "">
+        <meta name = "author" content ="">
+        <title>Canvas</title>
+        <link href="../dist/css/nivo-slider.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../dist/css/default/default.css">
+    </head>
+    
+    <body>
+        <div class="slider-wrapper theme-default">
+            <div id ="slider" class = "nivoSlider">
+                <img src="../dist/images/nemo.jpg" alt = "">
+                <img src="../dist/images/toystory.jpg" alt = "">
+                <img src="../dist/images/up.jpg" alt = "">
+                <img src="../dist/images/walle.jpg" alt = "">
+            </div>
+        </div>
+        
+        <script type="text/javascript" src = "../dist/js/jquery.min.js"></script>
+        <script type="text/javascript" src = "../dist/js/jquery.nivo.slider.js"></script>
+        <script type="text/javascript">
+            $(window).load(function() 
+            {
+                $("#slider").nivoSlider(
+                {
+                    controNavThumbs:true
+                })
+            });
+        </script>
+    </body>
+</html>

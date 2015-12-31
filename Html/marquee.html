@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Marquee</title>
+    </head>
+        <marquee direction = "right">动态元素</marquee>
+        
+    <body>
+        <select id = "select1" style="width:153px"></select>
+        <select id = "select2" style="width:153px"></select>
+        <select id = "select3" style="width:153px"></select>
+        <div>
+            <p></p>
+        </div>
+        <script src = "../dist/js/jquery.min.js"></script>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                function display_data()
+                {
+                    var select1 = $("#select1").val(),
+                    select2 = $("#select2").val();
+                    select3 = $("#select3").val();
+                    $("div p").html("您选择的内容是："+select1+"省"+select2+"市"+select3);
+                }
+                function get_city_data()
+                {
+                    $.get('../data/City.json', function(data) {
+                        console.log(data);
+                        function province()
+                        {
+                            for (var i = 0; i < data.length; i++) 
+                            {
+                                $("#select1").append("<option>"+data[i].name+"</option>");
+                            };
+                        }
+                        function city()
+                        {
+                            var select1 = $("#select1").val(),
+                                i = 0;
+
+                            while(select1 != data[i].name)
+                            {
+                                i++;
+                            }
+                            $("#select2").empty(); 
+                            $("#select3").empty();                            
+                            for (var j = 0; j < data[i].city.length; j++)
+                            {
+                                $("#select2").append("<option>" + data[i].city[j].name + "</option>");
+                            }
+                            for (var j = 0; j < data[i].city[0].area.length; j++) {
+                                $("#select3").append("<option>" + data[i].city[0].area[j] + "</option>");
+                            };
+                        }
+                        function county()
+                        {
+                            var select1 = $("#select1").val(),
+                                select2 = $("#select2").val(),
+                                i = 0,
+                                j = 0;
+
+                            while(select1 != data[i].name)
+                            {
+                                i++;
+                            }
+
+                            while(select2 != data[i].city[j].name)
+                            {
+                                j++;
+                            }
+                            $("#select3").empty();                            
+                            for (var m = 0; m < data[i].city[j].area.length; m++)
+                            {
+                                $("#select3").append("<option>" + data[i].city[j].area[m] + "</option>");
+                            }
+                        }
+                        province();
+                        city();
+                        county();
+                        $("#select1").change(function()
+                            {
+                                city();
+                                display_data();
+                            });
+                        $("#select2").change(function()
+                            {
+                                county();
+                                display_data();
+                            });
+                    });
+                }
+                get_city_data();
+            });
+        </script>
+    </body>
+</html>
